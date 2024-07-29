@@ -2,12 +2,13 @@ package com.dayanalizer.controller;
 
 import com.dayanalizer.dto.StudyDayDto;
 import com.dayanalizer.service.StudyDayService;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/studyday")
 @CrossOrigin(origins = "*")
 public class StudyDayController {
@@ -18,12 +19,12 @@ public class StudyDayController {
     }
 
     @PostMapping
-    public List<StudyDayDto> addRating(@RequestBody StudyDayDto studyDayDto) {
-        return studyDayService.addRating(studyDayDto);
+    public ResponseEntity<?> addRating(@RequestBody StudyDayDto studyDayDto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(studyDayService.addRating(studyDayDto));
     }
 
     @GetMapping
-    public List<StudyDayDto> getDays(@RequestParam int userId) {
-        return studyDayService.getDays(userId);
+    public ResponseEntity<?> getDays(@RequestParam int userId) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(studyDayService.getDays(userId));
     }
 }
