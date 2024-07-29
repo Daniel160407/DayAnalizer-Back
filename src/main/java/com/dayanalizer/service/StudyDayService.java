@@ -7,5 +7,7 @@ import java.util.List;
 
 @Service
 public interface StudyDayService {
+    List<StudyDayDto> addRating(StudyDayDto studyDayDto);
+
     List<StudyDayDto> getDays(int userId);
 }

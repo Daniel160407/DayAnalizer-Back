@@ -3,10 +3,7 @@ package com.dayanalizer.controller;
 import com.dayanalizer.dto.StudyDayDto;
 import com.dayanalizer.service.StudyDayService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,6 +15,11 @@ public class StudyDayController {
 
     public StudyDayController(StudyDayService studyDayService) {
         this.studyDayService = studyDayService;
+    }
+
+    @PostMapping
+    public List<StudyDayDto> addRating(@RequestBody StudyDayDto studyDayDto) {
+        return studyDayService.addRating(studyDayDto);
     }
 
     @GetMapping

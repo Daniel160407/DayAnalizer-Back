@@ -14,14 +14,23 @@ public class ModelConverter {
     public List<StudyDayDto> convertDaysToDtoList(List<StudyDay> studyDays) {
         List<StudyDayDto> studyDayDtos = new ArrayList<>();
 
-        studyDays.forEach(studyDay -> studyDayDtos.add(new StudyDayDto(studyDay.getDate(), studyDay.getRating(), studyDay.getType())));
+        studyDays.forEach(studyDay -> studyDayDtos.add(new StudyDayDto(studyDay.getDate(), studyDay.getRating(), studyDay.getType(), studyDay.getUserId())));
         return studyDayDtos;
     }
 
-    public User convert(UserDto userDto){
+    public User convert(UserDto userDto) {
         return User.builder()
                 .email(userDto.getEmail())
                 .password(userDto.getPassword())
+                .build();
+    }
+
+    public StudyDay convert(StudyDayDto studyDayDto) {
+        return StudyDay.builder()
+                .date(studyDayDto.getDate())
+                .rating(studyDayDto.getRating())
+                .type(studyDayDto.getType())
+                .userId(studyDayDto.getUserId())
                 .build();
     }
 }

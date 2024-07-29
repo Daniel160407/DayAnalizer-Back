@@ -11,4 +11,5 @@ public class StudyDayDto {
     private String date;
     private Integer rating;
     private String type;
+    private Integer userId;
 }

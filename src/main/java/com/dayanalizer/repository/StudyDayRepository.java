@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface StudyDayRepository extends JpaRepository<StudyDay, Integer> {
-    List<StudyDay>findAllByUserId(int userId);
+    List<StudyDay>findAllByUserIdAndType(int userId, String type);
 }

@@ -1,6 +1,7 @@
 package com.dayanalizer.service;
 
 import com.dayanalizer.dto.StudyDayDto;
+import com.dayanalizer.model.DayType;
 import com.dayanalizer.repository.StudyDayRepository;
 import com.dayanalizer.util.ModelConverter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,14 @@ public class StudyDayServiceImpl implements StudyDayService {
     }
 
     @Override
+    public List<StudyDayDto> addRating(StudyDayDto studyDayDto) {
+        studyDayRepository.save(modelConverter.convert(studyDayDto));
+        System.out.println(DayType.STUDY);
+        return modelConverter.convertDaysToDtoList(studyDayRepository.findAllByUserIdAndType(studyDayDto.getUserId(), DayType.STUDY.toString()));
+    }
+
+    @Override
     public List<StudyDayDto> getDays(int userId) {
-        return modelConverter.convertDaysToDtoList(studyDayRepository.findAllByUserId(userId));
+        return modelConverter.convertDaysToDtoList(studyDayRepository.findAllByUserIdAndType(userId, DayType.STUDY.toString()));
     }
 }

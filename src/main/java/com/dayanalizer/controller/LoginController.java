@@ -4,6 +4,9 @@ import com.dayanalizer.dto.UserDto;
 import com.dayanalizer.service.LoginService;
 import com.dayanalizer.service.exception.UserAlreadyRegisteredException;
 import com.dayanalizer.service.exception.UserNotRegisteredException;
+import com.dayanalizer.util.JwtUtils;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,13 +15,15 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/login")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*", exposedHeaders = "Authorization")
 public class LoginController {
     private final LoginService loginService;
+    private final JwtUtils jwtUtils;
 
     @Autowired
-    public LoginController(LoginService loginService) {
+    public LoginController(LoginService loginService, JwtUtils jwtUtils) {
         this.loginService = loginService;
+        this.jwtUtils = jwtUtils;
     }
 
     @PostMapping
@@ -32,9 +37,11 @@ public class LoginController {
     }
 
     @PutMapping
-    public ResponseEntity<?> login(@RequestBody UserDto userDto) {
+    public ResponseEntity<?> login(@RequestBody UserDto userDto, HttpServletResponse response) {
         try {
             Integer userId = loginService.login(userDto);
+            val token = jwtUtils.generateToken(userDto.getEmail());
+            response.addHeader(jwtUtils.JWT_HEADER, jwtUtils.JWT_PREFIX + token);
             return ResponseEntity.ok().body(userId);
         } catch (UserNotRegisteredException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
