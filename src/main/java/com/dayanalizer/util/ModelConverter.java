@@ -1,8 +1,10 @@
 package com.dayanalizer.util;
 
 import com.dayanalizer.dto.DayDto;
+import com.dayanalizer.dto.TableDto;
 import com.dayanalizer.dto.UserDto;
 import com.dayanalizer.model.Day;
+import com.dayanalizer.model.Table;
 import com.dayanalizer.model.User;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +20,13 @@ public class ModelConverter {
         return dayDtos;
     }
 
+    public List<TableDto> convertTablesToDtoList(List<Table> tables) {
+        List<TableDto> tableDtos = new ArrayList<>();
+
+        tables.forEach(table -> tableDtos.add(new TableDto(table.getName(), table.getQuestion())));
+        return tableDtos;
+    }
+
     public User convert(UserDto userDto) {
         return User.builder()
                 .email(userDto.getEmail())
@@ -30,6 +39,13 @@ public class ModelConverter {
                 .date(dayDto.getDate())
                 .rating(dayDto.getRating())
                 .type(dayDto.getType())
+                .build();
+    }
+
+    public Table convert(TableDto tableDto) {
+        return Table.builder()
+                .name(tableDto.getName())
+                .question(tableDto.getQuestion())
                 .build();
     }
 }
