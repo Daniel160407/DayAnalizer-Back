@@ -1,8 +1,8 @@
 package com.dayanalizer.service;
 
 import com.dayanalizer.dto.DayDto;
-import com.dayanalizer.model.DayType;
 import com.dayanalizer.model.Day;
+import com.dayanalizer.model.DayType;
 import com.dayanalizer.model.User;
 import com.dayanalizer.repository.DayRepository;
 import com.dayanalizer.repository.UsersRepository;
@@ -13,13 +13,13 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class StudyDayServiceImpl implements StudyDayService {
+public class SpiritualLifeServiceImpl implements SpiritualLifeService {
     private final DayRepository dayRepository;
     private final UsersRepository usersRepository;
     private final ModelConverter modelConverter;
 
     @Autowired
-    public StudyDayServiceImpl(DayRepository dayRepository, UsersRepository usersRepository, ModelConverter modelConverter) {
+    public SpiritualLifeServiceImpl(DayRepository dayRepository, UsersRepository usersRepository, ModelConverter modelConverter) {
         this.dayRepository = dayRepository;
         this.usersRepository = usersRepository;
         this.modelConverter = modelConverter;
@@ -28,23 +28,23 @@ public class StudyDayServiceImpl implements StudyDayService {
     @Override
     public List<DayDto> addRating(DayDto dayDto) {
         User user = usersRepository.findByEmail(dayDto.getUserEmail());
-        Day day = dayRepository.findByUserIdAndTypeAndDate(user.getId(), DayType.STUDY.toString(), dayDto.getDate());
+        Day day = dayRepository.findByUserIdAndTypeAndDate(user.getId(), DayType.SPIRITUAL_LIFE.toString(), dayDto.getDate());
         if (day != null) {
             day.setRating(dayDto.getRating());
-            day.setType(DayType.STUDY.toString());
+            day.setType(DayType.SPIRITUAL_LIFE.toString());
             dayRepository.save(day);
         } else {
             Day dayToSave = modelConverter.convert(dayDto);
             dayToSave.setUserId(user.getId());
-            dayToSave.setType(DayType.STUDY.toString());
+            dayToSave.setType(DayType.SPIRITUAL_LIFE.toString());
             dayRepository.save(dayToSave);
         }
-        return modelConverter.convertDaysToDtoList(dayRepository.findAllByUserIdAndType(user.getId(), DayType.STUDY.toString()));
+        return modelConverter.convertDaysToDtoList(dayRepository.findAllByUserIdAndType(user.getId(), DayType.SPIRITUAL_LIFE.toString()));
     }
 
     @Override
     public List<DayDto> getDays(String email) {
         User user = usersRepository.findByEmail(email);
-        return modelConverter.convertDaysToDtoList(dayRepository.findAllByUserIdAndType(user.getId(), DayType.STUDY.toString()));
+        return modelConverter.convertDaysToDtoList(dayRepository.findAllByUserIdAndType(user.getId(), DayType.SPIRITUAL_LIFE.toString()));
     }
 }

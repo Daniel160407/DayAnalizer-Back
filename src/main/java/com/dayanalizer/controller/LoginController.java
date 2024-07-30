@@ -39,10 +39,10 @@ public class LoginController {
     @PutMapping
     public ResponseEntity<?> login(@RequestBody UserDto userDto, HttpServletResponse response) {
         try {
-            Integer userId = loginService.login(userDto);
+            loginService.login(userDto);
             val token = jwtUtils.generateToken(userDto.getEmail());
             response.addHeader(jwtUtils.JWT_HEADER, jwtUtils.JWT_PREFIX + token);
-            return ResponseEntity.ok().body(userId);
+            return ResponseEntity.ok().build();
         } catch (UserNotRegisteredException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }

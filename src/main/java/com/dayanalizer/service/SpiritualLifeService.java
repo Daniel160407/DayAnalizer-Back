@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public interface StudyDayService {
+public interface SpiritualLifeService {
     List<DayDto> addRating(DayDto dayDto);
 
     List<DayDto> getDays(String email);

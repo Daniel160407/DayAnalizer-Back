@@ -30,12 +30,10 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public Integer login(UserDto userDto) {
+    public void login(UserDto userDto) {
         User user = usersRepository.findByEmailAndPassword(userDto.getEmail(), userDto.getPassword());
         if (user == null) {
             throw new UserNotRegisteredException();
-        } else {
-            return user.getId();
         }
     }
 }

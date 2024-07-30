@@ -1,8 +1,8 @@
 package com.dayanalizer.util;
 
-import com.dayanalizer.dto.StudyDayDto;
+import com.dayanalizer.dto.DayDto;
 import com.dayanalizer.dto.UserDto;
-import com.dayanalizer.model.StudyDay;
+import com.dayanalizer.model.Day;
 import com.dayanalizer.model.User;
 import org.springframework.stereotype.Component;
 
@@ -11,11 +11,11 @@ import java.util.List;
 
 @Component
 public class ModelConverter {
-    public List<StudyDayDto> convertDaysToDtoList(List<StudyDay> studyDays) {
-        List<StudyDayDto> studyDayDtos = new ArrayList<>();
+    public List<DayDto> convertDaysToDtoList(List<Day> days) {
+        List<DayDto> dayDtos = new ArrayList<>();
 
-        studyDays.forEach(studyDay -> studyDayDtos.add(new StudyDayDto(studyDay.getDate(), studyDay.getRating(), studyDay.getType(), studyDay.getUserId())));
-        return studyDayDtos;
+        days.forEach(day -> dayDtos.add(new DayDto(day.getDate(), day.getRating(), day.getType())));
+        return dayDtos;
     }
 
     public User convert(UserDto userDto) {
@@ -25,12 +25,11 @@ public class ModelConverter {
                 .build();
     }
 
-    public StudyDay convert(StudyDayDto studyDayDto) {
-        return StudyDay.builder()
-                .date(studyDayDto.getDate())
-                .rating(studyDayDto.getRating())
-                .type(studyDayDto.getType())
-                .userId(studyDayDto.getUserId())
+    public Day convert(DayDto dayDto) {
+        return Day.builder()
+                .date(dayDto.getDate())
+                .rating(dayDto.getRating())
+                .type(dayDto.getType())
                 .build();
     }
 }

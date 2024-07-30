@@ -7,5 +7,5 @@ import org.springframework.stereotype.Service;
 public interface LoginService {
     void register(UserDto userDto);
 
-    Integer login(UserDto userDto);
+    void login(UserDto userDto);
 }
