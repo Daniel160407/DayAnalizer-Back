@@ -2,6 +2,7 @@ package com.dayanalizer.controller;
 
 import com.dayanalizer.dto.UserDto;
 import com.dayanalizer.service.LoginService;
+import com.dayanalizer.service.exception.InvalidEmailOrPasswordException;
 import com.dayanalizer.service.exception.UserAlreadyRegisteredException;
 import com.dayanalizer.service.exception.UserNotRegisteredException;
 import com.dayanalizer.util.JwtUtils;
@@ -43,7 +44,7 @@ public class LoginController {
             val token = jwtUtils.generateToken(userDto.getEmail());
             response.addHeader(jwtUtils.JWT_HEADER, jwtUtils.JWT_PREFIX + token);
             return ResponseEntity.ok().build();
-        } catch (UserNotRegisteredException e) {
+        } catch (UserNotRegisteredException | InvalidEmailOrPasswordException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
