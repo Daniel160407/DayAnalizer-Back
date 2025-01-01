@@ -43,17 +43,11 @@ public class DayServiceImpl implements DayService {
     }
 
     @Override
-    public List<DayDto> getDays(String email, String type, int year) {
+    public List<DayDto> getDays(String email, String table, int year) {
         User user = usersRepository.findByEmail(email);
-        List<Day> days = dayRepository.findAllByUserIdAndType(user.getId(), type);
-        Iterator<Day> iterator = days.iterator();
+        List<Day> days = dayRepository.findAllByUserIdAndType(user.getId(), table);
 
-        while (iterator.hasNext()) {
-            Day day = iterator.next();
-            if (!day.getDate().startsWith(Integer.toString(year))) {
-                iterator.remove();
-            }
-        }
+        days.removeIf(day -> !day.getDate().startsWith(Integer.toString(year)));
 
         return modelConverter.convertDaysToDtoList(days);
     }
