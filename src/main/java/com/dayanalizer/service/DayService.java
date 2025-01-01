@@ -9,5 +9,5 @@ import java.util.List;
 public interface DayService {
     List<DayDto> addRating(DayDto dayDto);
 
-    List<DayDto> getDays(String email, String type);
+    List<DayDto> getDays(String email, String type, int year);
 }

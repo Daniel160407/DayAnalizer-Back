@@ -9,6 +9,7 @@ import com.dayanalizer.util.ModelConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Iterator;
 import java.util.List;
 
 @Service
@@ -42,8 +43,18 @@ public class DayServiceImpl implements DayService {
     }
 
     @Override
-    public List<DayDto> getDays(String email, String type) {
+    public List<DayDto> getDays(String email, String type, int year) {
         User user = usersRepository.findByEmail(email);
-        return modelConverter.convertDaysToDtoList(dayRepository.findAllByUserIdAndType(user.getId(), type));
+        List<Day> days = dayRepository.findAllByUserIdAndType(user.getId(), type);
+        Iterator<Day> iterator = days.iterator();
+
+        while (iterator.hasNext()) {
+            Day day = iterator.next();
+            if (!day.getDate().startsWith(Integer.toString(year))) {
+                iterator.remove();
+            }
+        }
+
+        return modelConverter.convertDaysToDtoList(days);
     }
 }

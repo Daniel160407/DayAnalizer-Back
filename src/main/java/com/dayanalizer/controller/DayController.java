@@ -24,7 +24,7 @@ public class DayController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getDays(@RequestParam String email, @RequestParam String type) {
-        return ResponseEntity.ok().body(dayService.getDays(email, type));
+    public ResponseEntity<?> getDays(@RequestParam String email, @RequestParam String type, @RequestParam int year) {
+        return ResponseEntity.ok().body(dayService.getDays(email, type, year));
     }
 }
